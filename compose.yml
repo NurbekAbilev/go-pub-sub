@@ -1,0 +1,54 @@
+services:
+  # push:
+    # build:
+    #   context: ./app
+    # ports:
+    #   - "8080"
+    # develop:
+    #   watch:
+    #     - path: ./app
+    #       target: /app
+    #       action: sync+restart
+    #     - path: ./app/go.mod
+    #       action: rebuild 
+    # deploy:
+    #   mode: replicated
+    #   replicas: 2
+    #   endpoint_mode: dnsrr
+
+          
+  # load-balancer:
+  #   build:
+  #     context: ./load-balancer
+  #   ports:
+  #     - "8080:8080"
+  #   develop:
+  #     watch:
+  #       - path: ./load-balancer
+  #         target: /appg
+  #         action: sync+restart
+  #       - path: ./load-balancer/go.mod
+  #         action: rebuild
+          
+
+  # rabbit: 
+  #   image: rabbitmq:3
+  #   environment:
+  #     - RABBITMQ_DEFAULT_USER=user
+  #     - RABBITMQ_DEFAULT_PASS=password
+
+  rabbit:
+    image: rabbitmq:3-management
+    environment:
+      - RABBITMQ_DEFAULT_USER=user
+      - RABBITMQ_DEFAULT_PASS=password
+    ports:
+      - "8080:15672"
+      - "5672:5672"
+
+    # environment:
+      # hostname
+
+# $ docker run -d --hostname my-rabbit --name some-rabbit -p 8080:15672 
+
+  
