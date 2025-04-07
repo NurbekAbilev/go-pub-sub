@@ -27,10 +27,13 @@ func main() {
 	)
 	failOnError(err, "Failed to declare a queue")
 
+	err = ch.Qos(1, 0, false)
+	failOnError(err, "failed to set qos")
+
 	msgs, err := ch.Consume(
 		q.Name,
 		"",
-		true,
+		false,
 		false,
 		false,
 		false,
@@ -46,7 +49,17 @@ func main() {
 			dotCount := bytes.Count(d.Body, []byte("."))
 			t := time.Duration(dotCount)
 			time.Sleep(t * time.Second)
+			// if rand.Float64() > 0.5 {
+			// 	log.Printf("acking message")
+			// 	d.Ack(false)
+			// } else {
+			// 	log.Printf("NACKING message")
+			// 	d.Nack(false, true)
+			// 	continue
+			// }
+			d.Ack(false)
 			log.Printf("Done")
+			// d.Ack(false)
 		}
 	}()
 
